@@ -195,6 +195,8 @@ int ZeroFFT(q15_t *source, uint16_t length)
 
 	switch (length)
 	  {
+
+#if ZERO_FFT_MAX == 8192
 	  case 4096u:
 	    /*  Initializations of structure parameters for 4096 point FFT */
 
@@ -206,6 +208,9 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    pBitRevTable = (uint16_t *) armBitRevTable;
 
 	    break;
+#endif
+
+#if ZERO_FFT_MAX >= 4096
 
 	  case 2048u:
 	    /*  Initializations of structure parameters for 2048 point FFT */
@@ -219,6 +224,9 @@ int ZeroFFT(q15_t *source, uint16_t length)
 
 	    break;
 
+#endif
+
+#if ZERO_FFT_MAX >= 2048
 	  case 1024u:
 	    /*  Initializations of structure parameters for 1024 point FFT */
 	    twidCoefModifier = 4u;
@@ -226,7 +234,9 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    pBitRevTable = (uint16_t *) & armBitRevTable[3];
 
 	    break;
+#endif
 
+#if ZERO_FFT_MAX >= 1024
 	  case 512u:
 	    /*  Initializations of structure parameters for 512 point FFT */
 	    twidCoefModifier = 8u;
@@ -234,7 +244,9 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    pBitRevTable = (uint16_t *) & armBitRevTable[7];
 
 	    break;
+#endif
 
+#if ZERO_FFT_MAX >= 512
 	  case 256u:
 	    /*  Initializations of structure parameters for 256 point FFT */
 	    twidCoefModifier = 16u;
@@ -242,6 +254,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    pBitRevTable = (uint16_t *) & armBitRevTable[15];
 
 	    break;
+#endif
 
 	  case 128u:
 	    /*  Initializations of structure parameters for 128 point FFT */
