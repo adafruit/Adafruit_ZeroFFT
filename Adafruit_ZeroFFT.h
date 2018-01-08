@@ -10,6 +10,8 @@
 
 #include <Arduino.h>
 
+#define FFT_BIN(num, fs, size) (num*((float)fs/(float)size))
+
 #ifndef ALIGN4
 #define ALIGN4 __attribute__ ((aligned (4)))
 #endif
@@ -34,10 +36,19 @@ extern "C"{
 
 extern int ZeroFFT(q15_t *source, uint16_t length);
 
+extern const q15_t window_hanning_16[];
+extern const q15_t window_hanning_32[];
+extern const q15_t window_hanning_64[];
+extern const q15_t window_hanning_128[];
+extern const q15_t window_hanning_256[];
+extern const q15_t window_hanning_512[];
+extern const q15_t window_hanning_1024[];
+extern const q15_t window_hanning_2048[];
+extern const q15_t window_hanning_4096[];
+
 #ifdef __cplusplus
 };
 #endif // __cplusplus
-
 #include "arm_common_tables.h"
 
 #endif /* ADAFRUIT_ZEROFFT_ADAFRUIT_ZEROFFT_H_ */
