@@ -3,11 +3,16 @@
  * 
  * The signal.h file constains a 200hz sine wave mixed with a weaker 800hz sine wave.
  * The signal was generated at a sample rate of 8000hz.
+ * 
+ * Note that you can print only the value (coment out the other two print statements) and use
+ * the serial plotter tool to see a graph.
  */
 
 #include "Adafruit_ZeroFFT.h"
 #include "signal.h"
 
+//the signal in signal.h has 2048 samples. Set this to a value between 16 and 2048 inclusive.
+//this must be a power of 2
 #define DATA_SIZE 256
 
 //the sample rate
