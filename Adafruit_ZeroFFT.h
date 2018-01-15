@@ -11,6 +11,7 @@
 #include <Arduino.h>
 
 #define FFT_BIN(num, fs, size) (num*((float)fs/(float)size))
+#define FFT_INDEX(freq, fs, size) ((int)((float)freq/((float)fs/(float)size)))
 
 #ifndef ALIGN4
 #define ALIGN4 __attribute__ ((aligned (4)))
