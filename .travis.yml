@@ -13,7 +13,7 @@ env:
 #    - DOXYFILE: $TRAVIS_BUILD_DIR/Doxyfile
 
 before_install:
-   - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/dm-zero/install.sh)
+   - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
 
 install:
    - arduino --install-library "Adafruit ILI9341","Adafruit GFX Library","Adafruit Circuit Playground","Adafruit Zero PDM Library"
