@@ -16,7 +16,7 @@
    * @return none.
  */
 
-static q15_t scratchData[ZERO_FFT_MAX];
+static q15_t ALIGN4 scratchData[ZERO_FFT_MAX];
 
 void arm_bitreversal_q15(
   q15_t * pSrc16,
