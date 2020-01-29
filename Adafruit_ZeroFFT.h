@@ -64,8 +64,6 @@ extern int ZeroFFT(q15_t *source, uint16_t length);
 /**************************************************************************/
 /*!
     @brief  enable the hanning window applied to the input signal when running the FFT
-    @param  void
-    @return void
     @note   Window is enabled by default.
 */
 /**************************************************************************/
@@ -74,8 +72,6 @@ extern void enableFFTWindow(void);
 /**************************************************************************/
 /*!
     @brief  disable the hanning window applied to the input signal when running the FFT
-    @param  void
-    @return void
     @note   Window is enabled by default.
 */
 /**************************************************************************/
