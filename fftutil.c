@@ -17,6 +17,7 @@
  */
 
 static q15_t ALIGN4 scratchData[ZERO_FFT_MAX];
+static bool useWindow = true;
 
 void arm_bitreversal_q15(
   q15_t * pSrc16,
@@ -187,10 +188,22 @@ void arm_radix2_butterfly_q15(
 
 static inline void applyWindow(q15_t *src, const q15_t *window, uint16_t len)
 {
-	while(len--){
-		int32_t val = *src * *window++;
-		*src++ = val >> 15;
-	}
+    if (useWindow == true) {
+    	while(len--) {
+    		int32_t val = *src * *window++;
+    		*src++ = val >> 15;
+    	}
+    }
+}
+
+void enableFFTWindow(void)
+{
+    useWindow = true;
+}
+
+void disableFFTWindow(void)
+{
+    useWindow = false;
 }
 
 int ZeroFFT(q15_t *source, uint16_t length)
@@ -215,7 +228,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    /*  Initialise the bit reversal table pointer */
 	    pBitRevTable = (uint16_t *) armBitRevTable;
 
-	    applyWindow(source, window_hanning_4096, 4096);
+       applyWindow(source, window_hanning_4096, 4096);
 
 	    break;
 #endif
@@ -232,7 +245,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    /*  Initialise the bit reversal table pointer */
 	    pBitRevTable = (uint16_t *) & armBitRevTable[1];
 
-	    applyWindow(source, window_hanning_2048, 2048);
+       applyWindow(source, window_hanning_2048, 2048);
 
 	    break;
 
@@ -245,7 +258,8 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 4u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[3];
 
-	    applyWindow(source, window_hanning_1024, 1024);
+       applyWindow(source, window_hanning_1024, 1024);
+
 	    break;
 #endif
 
@@ -256,7 +270,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 8u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[7];
 
-	    applyWindow(source, window_hanning_512, 512);
+       applyWindow(source, window_hanning_512, 512);
 
 	    break;
 #endif
@@ -268,7 +282,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 16u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[15];
 
-	    applyWindow(source, window_hanning_256, 256);
+        applyWindow(source, window_hanning_256, 256);
 
 	    break;
 #endif
@@ -279,7 +293,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 32u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[31];
 
-	    applyWindow(source, window_hanning_128, 128);
+        applyWindow(source, window_hanning_128, 128);
 
 	    break;
 
@@ -289,7 +303,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 64u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[63];
 
-	    applyWindow(source, window_hanning_64, 64);
+        applyWindow(source, window_hanning_64, 64);
 
 	    break;
 
@@ -299,7 +313,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 128u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[127];
 
-	    applyWindow(source, window_hanning_32, 32);
+        applyWindow(source, window_hanning_32, 32);
 
 	    break;
 
@@ -309,7 +323,7 @@ int ZeroFFT(q15_t *source, uint16_t length)
 	    bitRevFactor = 256u;
 	    pBitRevTable = (uint16_t *) & armBitRevTable[255];
 
-	    applyWindow(source, window_hanning_16, 16);
+        applyWindow(source, window_hanning_16, 16);
 
 	    break;
 

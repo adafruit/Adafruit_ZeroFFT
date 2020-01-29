@@ -19,6 +19,9 @@
 #define ADAFRUIT_ZEROFFT_ADAFRUIT_ZEROFFT_H_
 
 #include <Arduino.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 #define FFT_BIN(num, fs, size) (num*((float)fs/(float)size)) ///< return the center frequency of FFT bin 'num' based on the sample rate and FFT stize
 #define FFT_INDEX(freq, fs, size) ((int)((float)freq/((float)fs/(float)size))) ///< return the bin index where the specified frequency 'freq' can be found based on the passed sample rate and FFT size
@@ -51,10 +54,32 @@ extern "C"{
     @param source the data to FFT
     @param length the length of the data. This must be a power of 2 and less than or equal to ZERO_FFT_MAX
     @return 0 on success, -1 on failure
-    @note The FFT is run in place on the data. A hanning window is applied to the input data. The complex portion is discarded, and the real values are returned.
+    @note The FFT is run in place on the data. By default, a hanning window is applied to the input data.
+          It can be disabled or enabled using disableFFTWindow and enableFFTWindow functions.
+          The complex portion is discarded, and the real values are returned.
 */
 /**************************************************************************/
 extern int ZeroFFT(q15_t *source, uint16_t length);
+
+/**************************************************************************/
+/*!
+    @brief  enable the hanning window applied to the input signal when running the FFT
+    @param  none
+    @return none
+    @note   Window is enabled by default.
+*/
+/**************************************************************************/
+extern void enableFFTWindow(void);
+
+/**************************************************************************/
+/*!
+    @brief  disable the hanning window applied to the input signal when running the FFT
+    @param  none
+    @return none
+    @note   Window is enabled by default.
+*/
+/**************************************************************************/
+extern void disableFFTWindow(void);
 
 extern const q15_t window_hanning_16[]; ///< a hanning window of length 16
 extern const q15_t window_hanning_32[]; ///< a hanning window of length 32

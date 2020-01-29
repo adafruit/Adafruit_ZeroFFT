@@ -1,5 +1,5 @@
 /* This example shows how to use the FFT library with a circuit playground express.
- *  
+ *
  *  The LEDs will map around the circle when frequencies between FREQ_MIN and FREQ_MAX are detected
  */
 
@@ -49,10 +49,10 @@ void loop() {
     *ptr -= avg;
     *ptr++ = *ptr*SCALE_FACTOR;
   }
-  
+
   //run the FFT
   ZeroFFT(inputData, DATA_SIZE);
-  
+
   //set all to 0
   memset(pixelData, 0, NUM_PIXELS*sizeof(int16_t));
 
@@ -75,14 +75,14 @@ void loop() {
 uint32_t Wheel(byte WheelPos) {
   if(WheelPos < 20) {
     return CircuitPlayground.strip.Color(0, 0, 0);
-  } 
+  }
   else if(WheelPos < 85) {
     return CircuitPlayground.strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-  } 
+  }
   else if(WheelPos < 170) {
     WheelPos -= 85;
     return CircuitPlayground.strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  } 
+  }
   else {
     WheelPos -= 170;
     return CircuitPlayground.strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
