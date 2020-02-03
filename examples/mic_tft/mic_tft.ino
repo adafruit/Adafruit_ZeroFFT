@@ -16,7 +16,7 @@
 #define FFT_MAX 512
 #endif
 
-/*set this to a power of 2. 
+/*set this to a power of 2.
  * Lower = faster, lower resolution
  * Higher = slower, higher resolution
   */
@@ -51,7 +51,7 @@ void setup() {
   digitalWrite(A0, HIGH);
   pinMode(A1, OUTPUT);
   digitalWrite(A1, LOW);
-  
+
   tft.begin();
   tft.setRotation(1);
 }
@@ -66,7 +66,7 @@ void drawReference(){
     uint16_t xpos = map(i, 0, DATA_SIZE/2, 0, GRAPH_WIDTH);
     tft.setCursor(xpos, 0);
     tft.drawLine(xpos, GRAPH_MIN, xpos, GRAPH_MAX, ILI9341_RED);
-    
+
     tft.print(fc);
   }
 }
@@ -82,7 +82,7 @@ void loop() {
   //remove DC offset and gain up to 16 bits
   avg = avg/DATA_SIZE;
   for(int i=0; i<DATA_SIZE; i++) data[i] = (data[i] - avg) * 64;
-    
+
   //run the FFT
   ZeroFFT(data, DATA_SIZE);
 
@@ -105,13 +105,13 @@ void loop() {
   thisy = GRAPH_MIN;
   for(int i=1; i<GRAPH_WIDTH; i++){
     uint16_t ix = map(i, 0, GRAPH_WIDTH, 0, DATA_SIZE/2);
-    
+
 #if AUTOSCALE
     thisy = constrain(map(data[ix], 0, GRAPH_HEIGHT, GRAPH_MIN, GRAPH_MAX), GRAPH_OFFSET, GRAPH_MIN);
 #else
     thisy = constrain(map(data[ix], 0, FFT_MAX, GRAPH_MIN, GRAPH_MAX), GRAPH_OFFSET, GRAPH_MIN);
 #endif
- 
+
     tft.drawLine(i - 1, lasty, i, thisy, ILI9341_GREEN);
     lasty = thisy;
   }

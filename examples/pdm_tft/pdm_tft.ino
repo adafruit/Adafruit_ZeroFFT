@@ -20,7 +20,7 @@
 #define FFT_MAX 512
 #endif
 
-/*set this to a power of 2. 
+/*set this to a power of 2.
  * Lower = faster, lower resolution
  * Higher = slower, higher resolution
   */
@@ -37,7 +37,7 @@
 #define GRAPH_MAX (tft.height() - GRAPH_HEIGHT)
 static float xScale;
 
-Adafruit_ZeroPDM pdm = Adafruit_ZeroPDM(1, 4); 
+Adafruit_ZeroPDM pdm = Adafruit_ZeroPDM(1, 4);
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 int16_t data[DATA_SIZE];
@@ -67,7 +67,7 @@ void setup() {
     while (1);
   }
   Serial.println("PDM configured");
-  
+
   tft.begin();
   tft.setRotation(1);
 }
@@ -82,7 +82,7 @@ void drawReference(){
     uint16_t xpos = map(i, 0, DATA_SIZE/2, 0, GRAPH_WIDTH);
     tft.setCursor(xpos, 0);
     tft.drawLine(xpos, GRAPH_MIN, xpos, GRAPH_MAX, ILI9341_RED);
-    
+
     tft.print(fc);
   }
 }
@@ -92,13 +92,13 @@ void loop() {
   for(int i=0; i<DATA_SIZE; i++){
     uint16_t runningsum = 0;
     uint16_t *sinc_ptr = sincfilter;
-    
+
     for (uint8_t samplenum=0; samplenum < (DECIMATION/16) ; samplenum++) {
        uint16_t sample = pdm.read() & 0xFFFF;    // we read 16 bits at a time, by default the low half
-    
-       ADAPDM_REPEAT_LOOP_16(      // manually unroll loop: for (int8_t b=0; b<16; b++) 
+
+       ADAPDM_REPEAT_LOOP_16(      // manually unroll loop: for (int8_t b=0; b<16; b++)
          {
-           // start at the LSB which is the 'first' bit to come down the line, chronologically 
+           // start at the LSB which is the 'first' bit to come down the line, chronologically
            // (Note we had to set I2S_SERCTRL_BITREV to get this to work, but saves us time!)
            if (sample & 0x1) {
              runningsum += *sinc_ptr;     // do the convolution
@@ -116,7 +116,7 @@ void loop() {
   //remove DC offset
   avg = avg/DATA_SIZE;
   for(int i=0; i<DATA_SIZE; i++) data[i] = (data[i] - avg);
-    
+
   //run the FFT
   ZeroFFT(data, DATA_SIZE);
 
@@ -139,13 +139,13 @@ void loop() {
   thisy = GRAPH_MIN;
   for(int i=1; i<GRAPH_WIDTH; i++){
     uint16_t ix = map(i, 0, GRAPH_WIDTH, 0, DATA_SIZE/2);
-    
+
 #if AUTOSCALE
     thisy = constrain(map(data[ix], 0, GRAPH_HEIGHT, GRAPH_MIN, GRAPH_MAX), GRAPH_OFFSET, GRAPH_MIN);
 #else
     thisy = constrain(map(data[ix], 0, FFT_MAX, GRAPH_MIN, GRAPH_MAX), GRAPH_OFFSET, GRAPH_MIN);
 #endif
- 
+
     tft.drawLine(i - 1, lasty, i, thisy, ILI9341_GREEN);
     lasty = thisy;
   }
