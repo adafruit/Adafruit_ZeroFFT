@@ -331,11 +331,13 @@ int ZeroFFT(q15_t *source, uint16_t length)
 
 	pSrc = source;
 	pOut = scratchData;
+	uint16_t alphaMax, betaMin;  // Use Alpha Max plus Beta Min to quickly approximate magnitude
 	for(int i=0; i<length; i++){
-		  q15_t val = *pOut++;
-		  uint32_t v = abs(val);
-		  *pSrc++ = v;
-		  pOut++; //discard imaginary phase val
+		  q15_t real = *pOut++;
+		  q15_t imag = *pOut++;
+		  alphaMax = abs(real > imag ? real : imag);
+		  betaMin = abs(real < imag ? real : imag)/4;
+		  *pSrc++ = (uint32_t)(alphaMax + betaMin);
 	  }
 
 	return 0;
