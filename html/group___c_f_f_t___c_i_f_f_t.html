@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Adafruit ZeroFFT Arduino Library: Complex FFT Tables</title>
+<title>Adafruit ZeroFFT Library: Complex FFT Tables</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Adafruit ZeroFFT Arduino Library
+   <div id="projectname">Adafruit ZeroFFT Library
    </div>
   </td>
  </tr>
@@ -90,18 +90,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section user"><dt></dt><dd>Pseudo code for Generation of Bit reversal Table is </dd></dl>
-<dl class="section user"><dt></dt><dd><pre>for(l=1;l &lt;= N/4;l++)    
-{    
-  for(i=0;i&lt;logN2;i++)    
-  {     
-    a[i]=l&amp;(1&lt;&lt;i);    
-  }    
-  for(j=0; j&lt;logN2; j++)    
-  {    
-    if (a[j]!=0)    
-    y[l]+=(1&lt;&lt;((logN2-1)-j));    
-  }    
-  y[l] = y[l] &gt;&gt; 1;    
+<dl class="section user"><dt></dt><dd><pre>for(l=1;l &lt;= N/4;l++)
+{
+  for(i=0;i&lt;logN2;i++)
+  {
+    a[i]=l&amp;(1&lt;&lt;i);
+  }
+  for(j=0; j&lt;logN2; j++)
+  {
+    if (a[j]!=0)
+    y[l]+=(1&lt;&lt;((logN2-1)-j));
+  }
+  y[l] = y[l] &gt;&gt; 1;
  } </pre> </dd></dl>
 <dl class="section user"><dt></dt><dd>where N = 4096 logN2 = 12 </dd></dl>
 <dl class="section user"><dt></dt><dd>N is the maximum FFT Size supported </dd></dl>
@@ -120,10 +120,10 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section user"><dt></dt><dd>Example code for Floating-point Twiddle factors Generation: </dd></dl>
-<dl class="section user"><dt></dt><dd><pre>for(i = 0; i&lt; 3N/4; i++)    
-{    
-  twiddleCoef[2*i]= cos(i * 2*PI/(float)N);    
-  twiddleCoef[2*i+1]= sin(i * 2*PI/(float)N);    
+<dl class="section user"><dt></dt><dd><pre>for(i = 0; i&lt; 3N/4; i++)
+{
+ twiddleCoef[2*i]= cos(i * 2*PI/(float)N);
+ twiddleCoef[2*i+1]= sin(i * 2*PI/(float)N);
 } </pre> </dd></dl>
 <dl class="section user"><dt></dt><dd>where N = 4096 and PI = 3.14159265358979 </dd></dl>
 <dl class="section user"><dt></dt><dd>Cos and Sin values are in interleaved fashion </dd></dl>
@@ -142,10 +142,10 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section user"><dt></dt><dd>Example code for Q31 Twiddle factors Generation:: </dd></dl>
-<dl class="section user"><dt></dt><dd><pre>for(i = 0; i&lt; 3N/4; i++)    
-{    
-   twiddleCoefQ31[2*i]= cos(i * 2*PI/(float)N);    
-   twiddleCoefQ31[2*i+1]= sin(i * 2*PI/(float)N);    
+<dl class="section user"><dt></dt><dd><pre>for(i = 0; i&lt; 3N/4; i++)
+{
+   twiddleCoefQ31[2*i]= cos(i * 2*PI/(float)N);
+   twiddleCoefQ31[2*i+1]= sin(i * 2*PI/(float)N);
 } </pre> </dd></dl>
 <dl class="section user"><dt></dt><dd>where N = 4096 and PI = 3.14159265358979 </dd></dl>
 <dl class="section user"><dt></dt><dd>Cos and Sin values are interleaved fashion </dd></dl>
@@ -165,10 +165,10 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section user"><dt></dt><dd>Example code for Q15 Twiddle factors Generation:: </dd></dl>
-<dl class="section user"><dt></dt><dd><pre>for(i = 0; i&lt; 3N/4; i++)    
-{    
-  twiddleCoefQ15[2*i]= cos(i * 2*PI/(float)N);    
-  twiddleCoefQ15[2*i+1]= sin(i * 2*PI/(float)N);    
+<dl class="section user"><dt></dt><dd><pre>for(i = 0; i&lt; 3N/4; i++)
+{
+ twiddleCoefQ15[2*i]= cos(i * 2*PI/(float)N);
+ twiddleCoefQ15[2*i+1]= sin(i * 2*PI/(float)N);
 } </pre> </dd></dl>
 <dl class="section user"><dt></dt><dd>where N = 4096 and PI = 3.14159265358979 </dd></dl>
 <dl class="section user"><dt></dt><dd>Cos and Sin values are interleaved fashion </dd></dl>

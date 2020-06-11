@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Adafruit ZeroFFT Arduino Library: Adafruit_ZeroFFT.h File Reference</title>
+<title>Adafruit ZeroFFT Library: Adafruit_ZeroFFT.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Adafruit ZeroFFT Arduino Library
+   <div id="projectname">Adafruit ZeroFFT Library
    </div>
   </td>
  </tr>
@@ -73,16 +73,13 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:adc48ddd0c3920922337fb1463f2f048b"><td class="memItemLeft" align="right" valign="top"><a id="adc48ddd0c3920922337fb1463f2f048b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___zero_f_f_t_8h.html#adc48ddd0c3920922337fb1463f2f048b">FFT_BIN</a>(num,  fs,  size)&#160;&#160;&#160;(num*((float)fs/(float)size))</td></tr>
-<tr class="memdesc:adc48ddd0c3920922337fb1463f2f048b"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the center frequency of FFT bin 'num' based on the sample rate and FFT stize <br /></td></tr>
+<tr class="memitem:adc48ddd0c3920922337fb1463f2f048b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___zero_f_f_t_8h.html#adc48ddd0c3920922337fb1463f2f048b">FFT_BIN</a>(num,  fs,  size)</td></tr>
+<tr class="memdesc:adc48ddd0c3920922337fb1463f2f048b"><td class="mdescLeft">&#160;</td><td class="mdescRight">based on the sample rate and FFT stize  <a href="#adc48ddd0c3920922337fb1463f2f048b">More...</a><br /></td></tr>
 <tr class="separator:adc48ddd0c3920922337fb1463f2f048b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afce2efaeaa94d49ec551963d4a6d7ff8"><td class="memItemLeft" align="right" valign="top"><a id="afce2efaeaa94d49ec551963d4a6d7ff8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___zero_f_f_t_8h.html#afce2efaeaa94d49ec551963d4a6d7ff8">FFT_INDEX</a>(freq,  fs,  size)&#160;&#160;&#160;((int)((float)freq/((float)fs/(float)size)))</td></tr>
-<tr class="memdesc:afce2efaeaa94d49ec551963d4a6d7ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the bin index where the specified frequency 'freq' can be found based on the passed sample rate and FFT size <br /></td></tr>
+<tr class="memitem:afce2efaeaa94d49ec551963d4a6d7ff8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___zero_f_f_t_8h.html#afce2efaeaa94d49ec551963d4a6d7ff8">FFT_INDEX</a>(freq,  fs,  size)</td></tr>
 <tr class="separator:afce2efaeaa94d49ec551963d4a6d7ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a280a402ab28c399fcc4168f2ed631acb"><td class="memItemLeft" align="right" valign="top"><a id="a280a402ab28c399fcc4168f2ed631acb"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___zero_f_f_t_8h.html#a280a402ab28c399fcc4168f2ed631acb">ALIGN4</a>&#160;&#160;&#160;__attribute__ ((aligned (4)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___zero_f_f_t_8h.html#a280a402ab28c399fcc4168f2ed631acb">ALIGN4</a>&#160;&#160;&#160;__attribute__((aligned(4)))</td></tr>
 <tr class="memdesc:a280a402ab28c399fcc4168f2ed631acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">align to 4 bytes <br /></td></tr>
 <tr class="separator:a280a402ab28c399fcc4168f2ed631acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21d32e034b299d2c0adf1044969cf15b"><td class="memItemLeft" align="right" valign="top"><a id="a21d32e034b299d2c0adf1044969cf15b"></a>
@@ -152,7 +149,80 @@ const <a class="el" href="_adafruit___zero_f_f_t_8h.html#a21d32e034b299d2c0adf10
 <p>Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!</p>
 <p>Written by Dean Miller for Adafruit Industries.</p>
 <p>BSD license, all text here must be included in any redistribution. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="adc48ddd0c3920922337fb1463f2f048b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc48ddd0c3920922337fb1463f2f048b">&#9670;&nbsp;</a></span>FFT_BIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FFT_BIN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">num, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">fs, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">size&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(num *                                                                       \</div><div class="line">   ((float)fs / (<span class="keywordtype">float</span>)size))</div></div><!-- fragment -->
+<p>based on the sample rate and FFT stize </p>
+<p>return the center frequency of FFT bin 'num' </p>
+
+</div>
+</div>
+<a id="afce2efaeaa94d49ec551963d4a6d7ff8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afce2efaeaa94d49ec551963d4a6d7ff8">&#9670;&nbsp;</a></span>FFT_INDEX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FFT_INDEX</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">freq, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">fs, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">size&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">((int)((<span class="keywordtype">float</span>)freq /                                                         \</div><div class="line">         ((float)fs /                                                          \</div><div class="line">          (<span class="keywordtype">float</span>)size)))</div></div><!-- fragment --><p>return the bin index where the specified frequency 'freq' can be found based on the passed sample rate and FFT size </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="ad2120d0d5933439bcced5d6666178ceb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2120d0d5933439bcced5d6666178ceb">&#9670;&nbsp;</a></span>ZeroFFT()</h2>
 
