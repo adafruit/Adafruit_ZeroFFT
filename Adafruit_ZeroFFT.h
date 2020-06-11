@@ -20,11 +20,19 @@
 
 #include <Arduino.h>
 
-#define FFT_BIN(num, fs, size) (num*((float)fs/(float)size)) ///< return the center frequency of FFT bin 'num' based on the sample rate and FFT stize
-#define FFT_INDEX(freq, fs, size) ((int)((float)freq/((float)fs/(float)size))) ///< return the bin index where the specified frequency 'freq' can be found based on the passed sample rate and FFT size
+#define FFT_BIN(num, fs, size)                                                 \
+  (num *                                                                       \
+   ((float)fs / (float)size)) ///< return the center frequency of FFT bin 'num'
+                              ///< based on the sample rate and FFT stize
+#define FFT_INDEX(freq, fs, size)                                              \
+  ((int)((float)freq /                                                         \
+         ((float)fs /                                                          \
+          (float)size))) ///< return the bin index where the specified frequency
+                         ///< 'freq' can be found based on the passed sample
+                         ///< rate and FFT size
 
 #ifndef ALIGN4
-#define ALIGN4 __attribute__ ((aligned (4))) ///< align to 4 bytes
+#define ALIGN4 __attribute__((aligned(4))) ///< align to 4 bytes
 #endif
 
 #ifndef q15_t
@@ -42,26 +50,29 @@
 #define ZERO_FFT_MAX 4096 ///< the maximum allowed FFT size
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 /**************************************************************************/
 /*!
     @brief  run an FFT on an int16_t array. Note that this is run in place.
     @param source the data to FFT
-    @param length the length of the data. This must be a power of 2 and less than or equal to ZERO_FFT_MAX
+    @param length the length of the data. This must be a power of 2 and less
+   than or equal to ZERO_FFT_MAX
     @return 0 on success, -1 on failure
-    @note The FFT is run in place on the data. A hanning window is applied to the input data. The complex portion is discarded, and the real values are returned.
+    @note The FFT is run in place on the data. A hanning window is applied to
+   the input data. The complex portion is discarded, and the real values are
+   returned.
 */
 /**************************************************************************/
 extern int ZeroFFT(q15_t *source, uint16_t length);
 
-extern const q15_t window_hanning_16[]; ///< a hanning window of length 16
-extern const q15_t window_hanning_32[]; ///< a hanning window of length 32
-extern const q15_t window_hanning_64[]; ///< a hanning window of length 64
-extern const q15_t window_hanning_128[]; ///< a hanning window of length 128
-extern const q15_t window_hanning_256[]; ///< a hanning window of length 256
-extern const q15_t window_hanning_512[]; ///< a hanning window of length 512
+extern const q15_t window_hanning_16[];   ///< a hanning window of length 16
+extern const q15_t window_hanning_32[];   ///< a hanning window of length 32
+extern const q15_t window_hanning_64[];   ///< a hanning window of length 64
+extern const q15_t window_hanning_128[];  ///< a hanning window of length 128
+extern const q15_t window_hanning_256[];  ///< a hanning window of length 256
+extern const q15_t window_hanning_512[];  ///< a hanning window of length 512
 extern const q15_t window_hanning_1024[]; ///< a hanning window of length 1024
 extern const q15_t window_hanning_2048[]; ///< a hanning window of length 2048
 extern const q15_t window_hanning_4096[]; ///< a hanning window of length 4096
