@@ -1,4 +1,4 @@
-# Adafruit ZeroFFT Library [![Build Status](https://travis-ci.com/adafruit/Adafruit_ZeroFFT.svg?branch=master)](https://travis-ci.com/adafruit/Adafruit_ZeroFFT)
+# Adafruit ZeroFFT Library [![Build Status](https://github.com/adafruit/Adafruit_ZeroFFT/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_ILI9341/actions)
 
 This is an FFT library for ARM cortex M0+ CPUs
 
