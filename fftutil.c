@@ -339,13 +339,7 @@ int ZeroFFT(q15_t *source, uint16_t length) {
   return 0;
 }
 
-int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_window)
-{
-  int scale = 1;
-  uint16_t N = length;
-  while (N >>= 1)
-	scale++;
-	
+int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_window) {
   int result = ZeroFFT_base(source, length, do_window);
   if (result)
       return result;
@@ -356,5 +350,6 @@ int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_
     *pOut++ = *pTmp++;  // real
     *pOut++ = *pTmp++;  // imag
   }
+
   return 0;
 }
