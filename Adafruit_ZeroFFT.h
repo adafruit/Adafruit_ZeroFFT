@@ -85,6 +85,21 @@ extern int ZeroFFT(q15_t *source, uint16_t length);
 /**************************************************************************/
 extern int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_window);
 
+/**************************************************************************/
+/*!
+    @brief  run an FFT on an int16_t array. Note that this is run in place.
+    @param source the data to FFT
+    @param length the length of the data. This must be a power of 2 and less
+   than or equal to ZERO_FFT_MAX
+    @param do_window flag to apply hanning window (if true)
+    @return 0 on success, -1 on failure
+    @note The FFT is run in place on the data. The magnitude of the complex 
+   portion is computed for frequency bins 0 through N/2 (the remaining bins
+   are zeroed as they are redundant due to symmetry).
+*/
+/**************************************************************************/
+extern int ZeroFFTMagnitude(q15_t *source, uint16_t length, bool do_window);
+ 
 extern const q15_t window_hanning_16[];   ///< a hanning window of length 16
 extern const q15_t window_hanning_32[];   ///< a hanning window of length 32
 extern const q15_t window_hanning_64[];   ///< a hanning window of length 64

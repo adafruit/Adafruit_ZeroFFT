@@ -353,3 +353,46 @@ int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_
 
   return 0;
 }
+
+// "Gap" was a NASA engineer responsible for this algorithm for computing 
+// the integer square root (which is faster than using floating point).
+// Based on an article by Jack Crenshaw in Embedded Systems Programming,
+// [“Square Roots are Simple?” November 1991, p. 30]:
+//   	https://www.embedded.com/integer-square-roots/
+// The actual code was copied from here:
+//		https://gist.github.com/foobaz/3287f153d125277eefea
+static inline uint16_t gapsqrt32(uint32_t a) {
+  uint32_t rem = 0, root = 0;
+
+  for (int i = 32 / 2; i > 0; i--) {
+    root <<= 1;
+    rem = (rem << 2) | (a >> (32 - 2));
+    a <<= 2;
+    if (root < rem) {
+      rem -= root | 1;
+      root += 2;
+    }
+  }
+  return root >> 1;
+}
+
+int ZeroFFTMagnitude(q15_t *source, uint16_t length, bool do_window) {
+  int result = ZeroFFT_base(source, length, do_window);
+  if (result)
+      return result;
+
+  q15_t *pSrc = source;
+  q15_t *pOut = scratchData;
+  for (int i = 0; i < length / 2 + 1; i++) {
+    // compute the magnitude of the complex vector, discarding the phase
+    q15_t a = *pOut++;  // real
+    q15_t b = *pOut++;  // imag
+    q15_t v = (q15_t)gapsqrt32((q31_t)a * a + (q31_t)b * b);
+    *pSrc++ = v;
+  }
+  for (int i = length / 2 + 1; i < length; i++) {
+	*pSrc++ = 0;
+  }
+
+  return 0;
+}
