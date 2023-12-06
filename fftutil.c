@@ -84,17 +84,17 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
     for (i = j; i < (int)fftLen; i += n1) {
       l = i + n2;
       xt = (pSrc[2 * i] >> 2u) - (pSrc[2 * l] >> 2u);
-      pSrc[2 * i] = ((pSrc[2 * i] >> 2u) + (pSrc[2 * l] >> 2u)) >> 1u;
+      pSrc[2 * i] = (pSrc[2 * i] >> 2u) + (pSrc[2 * l] >> 2u);
 
       yt = (pSrc[2 * i + 1] >> 2u) - (pSrc[2 * l + 1] >> 2u);
       pSrc[2 * i + 1] =
-          ((pSrc[2 * l + 1] >> 2u) + (pSrc[2 * i + 1] >> 2u)) >> 1u;
+          (pSrc[2 * l + 1] >> 2u) + (pSrc[2 * i + 1] >> 2u);
 
-      pSrc[2u * l] = (((int16_t)(((q31_t)xt * cosVal) >> 16)) +
-                      ((int16_t)(((q31_t)yt * sinVal) >> 16)));
+      pSrc[2u * l] = (((int16_t)(((q31_t)xt * cosVal) >> 15)) +
+                      ((int16_t)(((q31_t)yt * sinVal) >> 15)));
 
-      pSrc[2u * l + 1u] = (((int16_t)(((q31_t)yt * cosVal) >> 16)) -
-                           ((int16_t)(((q31_t)xt * sinVal) >> 16)));
+      pSrc[2u * l + 1u] = (((int16_t)(((q31_t)yt * cosVal) >> 15)) -
+                           ((int16_t)(((q31_t)xt * sinVal) >> 15)));
 
     } // butterfly loop end
 
