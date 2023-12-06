@@ -174,7 +174,7 @@ static inline void applyWindow(q15_t *src, const q15_t *window, uint16_t len) {
   }
 }
 
-int ZeroFFT(q15_t *source, uint16_t length) {
+static int ZeroFFT_base(q15_t *source, uint16_t length, bool do_window) {
   uint16_t twidCoefModifier;
   uint16_t bitRevFactor;
   uint16_t *pBitRevTable;
@@ -194,7 +194,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     /*  Initialise the bit reversal table pointer */
     pBitRevTable = (uint16_t *)armBitRevTable;
 
-    applyWindow(source, window_hanning_4096, 4096);
+    if (do_window)
+      applyWindow(source, window_hanning_4096, 4096);
 
     break;
 #endif
@@ -211,7 +212,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     /*  Initialise the bit reversal table pointer */
     pBitRevTable = (uint16_t *)&armBitRevTable[1];
 
-    applyWindow(source, window_hanning_2048, 2048);
+    if (do_window)
+      applyWindow(source, window_hanning_2048, 2048);
 
     break;
 
@@ -224,7 +226,9 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 4u;
     pBitRevTable = (uint16_t *)&armBitRevTable[3];
 
-    applyWindow(source, window_hanning_1024, 1024);
+    if (do_window)
+      applyWindow(source, window_hanning_1024, 1024);
+
     break;
 #endif
 
@@ -235,7 +239,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 8u;
     pBitRevTable = (uint16_t *)&armBitRevTable[7];
 
-    applyWindow(source, window_hanning_512, 512);
+    if (do_window)
+      applyWindow(source, window_hanning_512, 512);
 
     break;
 #endif
@@ -247,7 +252,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 16u;
     pBitRevTable = (uint16_t *)&armBitRevTable[15];
 
-    applyWindow(source, window_hanning_256, 256);
+    if (do_window)
+      applyWindow(source, window_hanning_256, 256);
 
     break;
 #endif
@@ -258,7 +264,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 32u;
     pBitRevTable = (uint16_t *)&armBitRevTable[31];
 
-    applyWindow(source, window_hanning_128, 128);
+    if (do_window)
+      applyWindow(source, window_hanning_128, 128);
 
     break;
 
@@ -268,7 +275,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 64u;
     pBitRevTable = (uint16_t *)&armBitRevTable[63];
 
-    applyWindow(source, window_hanning_64, 64);
+    if (do_window)
+      applyWindow(source, window_hanning_64, 64);
 
     break;
 
@@ -278,7 +286,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 128u;
     pBitRevTable = (uint16_t *)&armBitRevTable[127];
 
-    applyWindow(source, window_hanning_32, 32);
+    if (do_window)
+      applyWindow(source, window_hanning_32, 32);
 
     break;
 
@@ -288,7 +297,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 256u;
     pBitRevTable = (uint16_t *)&armBitRevTable[255];
 
-    applyWindow(source, window_hanning_16, 16);
+    if (do_window)
+      applyWindow(source, window_hanning_16, 16);
 
     break;
 
@@ -309,8 +319,16 @@ int ZeroFFT(q15_t *source, uint16_t length) {
                            twidCoefModifier);
   arm_bitreversal_q15(scratchData, length, bitRevFactor, pBitRevTable);
 
-  pSrc = source;
-  pOut = scratchData;
+  return 0;
+}
+
+int ZeroFFT(q15_t *source, uint16_t length) {
+  int result = ZeroFFT_base(source, length, true);
+  if (result)
+      return result;
+
+  q15_t *pSrc = source;
+  q15_t *pOut = scratchData;
   for (int i = 0; i < length; i++) {
     q15_t val = *pOut++;
     uint32_t v = abs(val);
@@ -318,5 +336,25 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     pOut++; // discard imaginary phase val
   }
 
+  return 0;
+}
+
+int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_window)
+{
+  int scale = 1;
+  uint16_t N = length;
+  while (N >>= 1)
+	scale++;
+	
+  int result = ZeroFFT_base(source, length, do_window);
+  if (result)
+      return result;
+
+  q15_t *pOut = output;
+  q15_t *pTmp = scratchData;
+  for (int i = 0; i < length; i++) {
+    *pOut++ = *pTmp++;  // real
+    *pOut++ = *pTmp++;  // imag
+  }
   return 0;
 }

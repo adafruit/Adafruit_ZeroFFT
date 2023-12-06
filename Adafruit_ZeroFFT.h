@@ -67,6 +67,24 @@ extern "C" {
 /**************************************************************************/
 extern int ZeroFFT(q15_t *source, uint16_t length);
 
+/**************************************************************************/
+/*!
+    @brief  run an FFT on an int16_t array, storing the result in a 
+   different array (must be twice the size to hold both real and 
+   imaginary values).
+    @param source the data to FFT
+    @param output the FFT result in complex form
+    @param length the length of the data. This must be a power of 2 and less
+   than or equal to ZERO_FFT_MAX
+    @param do_window flag to apply hanning window (if true)
+    @return 0 on success, -1 on failure
+    @note The full FFT is returned. Because the data is real, there is
+   symmetry betwen the first and second half of the array. Disabling the
+   window is useful for testing purposes (see tests\test_fft_complex).
+*/
+/**************************************************************************/
+extern int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_window);
+
 extern const q15_t window_hanning_16[];   ///< a hanning window of length 16
 extern const q15_t window_hanning_32[];   ///< a hanning window of length 32
 extern const q15_t window_hanning_64[];   ///< a hanning window of length 64
