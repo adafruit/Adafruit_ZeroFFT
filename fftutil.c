@@ -81,7 +81,7 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
     ia = ia + twidCoefModifier;
 
     // loop for butterfly
-    for (i = j; i < fftLen; i += n1) {
+    for (i = j; i < (int)fftLen; i += n1) {
       l = i + n2;
       xt = (pSrc[2 * i] >> 2u) - (pSrc[2 * l] >> 2u);
       pSrc[2 * i] = ((pSrc[2 * i] >> 2u) + (pSrc[2 * l] >> 2u)) >> 1u;
@@ -115,7 +115,7 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
       ia = ia + twidCoefModifier;
 
       // loop for butterfly
-      for (i = j; i < fftLen; i += n1) {
+      for (i = j; i < (int)fftLen; i += n1) {
         l = i + n2;
         xt = pSrc[2 * i] - pSrc[2 * l];
         pSrc[2 * i] = (pSrc[2 * i] + pSrc[2 * l]) >> 1u;
@@ -148,7 +148,7 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
     ia = ia + twidCoefModifier;
 
     // loop for butterfly
-    for (i = j; i < fftLen; i += n1) {
+    for (i = j; i < (int)fftLen; i += n1) {
       l = i + n2;
       xt = pSrc[2 * i] - pSrc[2 * l];
       pSrc[2 * i] = (pSrc[2 * i] + pSrc[2 * l]);
