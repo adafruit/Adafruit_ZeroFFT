@@ -81,20 +81,20 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
     ia = ia + twidCoefModifier;
 
     // loop for butterfly
-    for (i = j; i < fftLen; i += n1) {
+    for (i = j; i < (int)fftLen; i += n1) {
       l = i + n2;
       xt = (pSrc[2 * i] >> 2u) - (pSrc[2 * l] >> 2u);
-      pSrc[2 * i] = ((pSrc[2 * i] >> 2u) + (pSrc[2 * l] >> 2u)) >> 1u;
+      pSrc[2 * i] = (pSrc[2 * i] >> 2u) + (pSrc[2 * l] >> 2u);
 
       yt = (pSrc[2 * i + 1] >> 2u) - (pSrc[2 * l + 1] >> 2u);
       pSrc[2 * i + 1] =
-          ((pSrc[2 * l + 1] >> 2u) + (pSrc[2 * i + 1] >> 2u)) >> 1u;
+          (pSrc[2 * l + 1] >> 2u) + (pSrc[2 * i + 1] >> 2u);
 
-      pSrc[2u * l] = (((int16_t)(((q31_t)xt * cosVal) >> 16)) +
-                      ((int16_t)(((q31_t)yt * sinVal) >> 16)));
+      pSrc[2u * l] = (((int16_t)(((q31_t)xt * cosVal) >> 15)) +
+                      ((int16_t)(((q31_t)yt * sinVal) >> 15)));
 
-      pSrc[2u * l + 1u] = (((int16_t)(((q31_t)yt * cosVal) >> 16)) -
-                           ((int16_t)(((q31_t)xt * sinVal) >> 16)));
+      pSrc[2u * l + 1u] = (((int16_t)(((q31_t)yt * cosVal) >> 15)) -
+                           ((int16_t)(((q31_t)xt * sinVal) >> 15)));
 
     } // butterfly loop end
 
@@ -115,7 +115,7 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
       ia = ia + twidCoefModifier;
 
       // loop for butterfly
-      for (i = j; i < fftLen; i += n1) {
+      for (i = j; i < (int)fftLen; i += n1) {
         l = i + n2;
         xt = pSrc[2 * i] - pSrc[2 * l];
         pSrc[2 * i] = (pSrc[2 * i] + pSrc[2 * l]) >> 1u;
@@ -148,7 +148,7 @@ void arm_radix2_butterfly_q15(q15_t *pSrc, uint32_t fftLen, q15_t *pCoef,
     ia = ia + twidCoefModifier;
 
     // loop for butterfly
-    for (i = j; i < fftLen; i += n1) {
+    for (i = j; i < (int)fftLen; i += n1) {
       l = i + n2;
       xt = pSrc[2 * i] - pSrc[2 * l];
       pSrc[2 * i] = (pSrc[2 * i] + pSrc[2 * l]);
@@ -174,7 +174,7 @@ static inline void applyWindow(q15_t *src, const q15_t *window, uint16_t len) {
   }
 }
 
-int ZeroFFT(q15_t *source, uint16_t length) {
+static int ZeroFFT_base(q15_t *source, uint16_t length, bool do_window) {
   uint16_t twidCoefModifier;
   uint16_t bitRevFactor;
   uint16_t *pBitRevTable;
@@ -194,7 +194,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     /*  Initialise the bit reversal table pointer */
     pBitRevTable = (uint16_t *)armBitRevTable;
 
-    applyWindow(source, window_hanning_4096, 4096);
+    if (do_window)
+      applyWindow(source, window_hanning_4096, 4096);
 
     break;
 #endif
@@ -211,7 +212,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     /*  Initialise the bit reversal table pointer */
     pBitRevTable = (uint16_t *)&armBitRevTable[1];
 
-    applyWindow(source, window_hanning_2048, 2048);
+    if (do_window)
+      applyWindow(source, window_hanning_2048, 2048);
 
     break;
 
@@ -224,7 +226,9 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 4u;
     pBitRevTable = (uint16_t *)&armBitRevTable[3];
 
-    applyWindow(source, window_hanning_1024, 1024);
+    if (do_window)
+      applyWindow(source, window_hanning_1024, 1024);
+
     break;
 #endif
 
@@ -235,7 +239,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 8u;
     pBitRevTable = (uint16_t *)&armBitRevTable[7];
 
-    applyWindow(source, window_hanning_512, 512);
+    if (do_window)
+      applyWindow(source, window_hanning_512, 512);
 
     break;
 #endif
@@ -247,7 +252,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 16u;
     pBitRevTable = (uint16_t *)&armBitRevTable[15];
 
-    applyWindow(source, window_hanning_256, 256);
+    if (do_window)
+      applyWindow(source, window_hanning_256, 256);
 
     break;
 #endif
@@ -258,7 +264,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 32u;
     pBitRevTable = (uint16_t *)&armBitRevTable[31];
 
-    applyWindow(source, window_hanning_128, 128);
+    if (do_window)
+      applyWindow(source, window_hanning_128, 128);
 
     break;
 
@@ -268,7 +275,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 64u;
     pBitRevTable = (uint16_t *)&armBitRevTable[63];
 
-    applyWindow(source, window_hanning_64, 64);
+    if (do_window)
+      applyWindow(source, window_hanning_64, 64);
 
     break;
 
@@ -278,7 +286,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 128u;
     pBitRevTable = (uint16_t *)&armBitRevTable[127];
 
-    applyWindow(source, window_hanning_32, 32);
+    if (do_window)
+      applyWindow(source, window_hanning_32, 32);
 
     break;
 
@@ -288,7 +297,8 @@ int ZeroFFT(q15_t *source, uint16_t length) {
     bitRevFactor = 256u;
     pBitRevTable = (uint16_t *)&armBitRevTable[255];
 
-    applyWindow(source, window_hanning_16, 16);
+    if (do_window)
+      applyWindow(source, window_hanning_16, 16);
 
     break;
 
@@ -309,13 +319,79 @@ int ZeroFFT(q15_t *source, uint16_t length) {
                            twidCoefModifier);
   arm_bitreversal_q15(scratchData, length, bitRevFactor, pBitRevTable);
 
-  pSrc = source;
-  pOut = scratchData;
+  return 0;
+}
+
+int ZeroFFT(q15_t *source, uint16_t length) {
+  int result = ZeroFFT_base(source, length, true);
+  if (result)
+      return result;
+
+  q15_t *pSrc = source;
+  q15_t *pOut = scratchData;
   for (int i = 0; i < length; i++) {
     q15_t val = *pOut++;
     uint32_t v = abs(val);
     *pSrc++ = v;
     pOut++; // discard imaginary phase val
+  }
+
+  return 0;
+}
+
+int ZeroFFTRealToComplex(q15_t *source, q15_t *output, uint16_t length, bool do_window) {
+  int result = ZeroFFT_base(source, length, do_window);
+  if (result)
+      return result;
+
+  q15_t *pOut = output;
+  q15_t *pTmp = scratchData;
+  for (int i = 0; i < length; i++) {
+    *pOut++ = *pTmp++;  // real
+    *pOut++ = *pTmp++;  // imag
+  }
+
+  return 0;
+}
+
+// "Gap" was a NASA engineer responsible for this algorithm for computing 
+// the integer square root (which is faster than using floating point).
+// Based on an article by Jack Crenshaw in Embedded Systems Programming,
+// [“Square Roots are Simple?” November 1991, p. 30]:
+//   	https://www.embedded.com/integer-square-roots/
+// The actual code was copied from here:
+//		https://gist.github.com/foobaz/3287f153d125277eefea
+static inline uint16_t gapsqrt32(uint32_t a) {
+  uint32_t rem = 0, root = 0;
+
+  for (int i = 32 / 2; i > 0; i--) {
+    root <<= 1;
+    rem = (rem << 2) | (a >> (32 - 2));
+    a <<= 2;
+    if (root < rem) {
+      rem -= root | 1;
+      root += 2;
+    }
+  }
+  return root >> 1;
+}
+
+int ZeroFFTMagnitude(q15_t *source, uint16_t length, bool do_window) {
+  int result = ZeroFFT_base(source, length, do_window);
+  if (result)
+      return result;
+
+  q15_t *pSrc = source;
+  q15_t *pOut = scratchData;
+  for (int i = 0; i < length / 2 + 1; i++) {
+    // compute the magnitude of the complex vector, discarding the phase
+    q15_t a = *pOut++;  // real
+    q15_t b = *pOut++;  // imag
+    q15_t v = (q15_t)gapsqrt32((q31_t)a * a + (q31_t)b * b);
+    *pSrc++ = v;
+  }
+  for (int i = length / 2 + 1; i < length; i++) {
+	*pSrc++ = 0;
   }
 
   return 0;
